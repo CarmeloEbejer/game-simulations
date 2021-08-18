@@ -21,11 +21,16 @@ public class SimulationUtility {
         System.out.printf("Starting simulation of game: %s%n", game.getClass().getSimpleName());
 
         BigDecimal[] winnings = new BigDecimal[simulations];
-        BigDecimal balance = BigDecimal.ZERO;
+        BigDecimal startingBalance = BigDecimal.ZERO;
+        BigDecimal balance = startingBalance;
+        int wins = 0;
 
         // calculate mean
         for (int i = 0; i < simulations; i++) {
             BigDecimal winning = game.bet(wager);
+            if (winning.compareTo(BigDecimal.ZERO) > 0) {
+                wins++;
+            }
             balance = balance.add(winning);
             winnings[i] = winning;
         }
@@ -36,7 +41,16 @@ public class SimulationUtility {
 
         BigDecimal std = variance.sqrt(MathContext.DECIMAL128);
 
-        System.out.printf("simulations: %s%nmean %s%nvariance %s%nstandard deviation %s%n%n", simulations, mean, variance, std);
+        System.out.printf("simulations: %s%n", simulations);
+        System.out.printf("wins: %s%n", wins);
+        int losses = simulations - wins;
+        System.out.printf("losses: %s%n", losses);
+        System.out.printf("starting balance: %s%n", startingBalance);
+        System.out.printf("final balance: %s%n", balance);
+        System.out.printf("mean: %s%n", mean);
+        System.out.printf("variance: %s%n", variance);
+        System.out.printf("standard deviation: %s%n", std);
+        System.out.println();
 
         return new SimulationResult(winnings, mean, variance);
     }

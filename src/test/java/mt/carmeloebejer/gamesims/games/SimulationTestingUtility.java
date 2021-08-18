@@ -27,7 +27,12 @@ public class SimulationTestingUtility {
         SimulationUtility.SimulationResult simulationResult = SimulationUtility.simulate(game, simulations, wager);
 
         System.out.println("Checking simulation results");
-        System.out.printf("expected mean %s\nexpected variance %s\nexpected standard deviation %s\n", expectedMean, expectedVariance, expectedStd);
+        System.out.printf("expected probability of winning: %s%n", probabilityOfWinning);
+        System.out.printf("expected probability of losing: %s%n", probabilityOfLosing);
+        System.out.printf("expected mean: %s%n", expectedMean);
+        System.out.printf("expected variance: %s%n", expectedVariance);
+        System.out.printf("expected standard deviation: %s%n", expectedStd);
+        System.out.println();
 
         BigDecimal error = BigDecimal.valueOf(0.002);
         assertEquals(expectedMean.subtract(simulationResult.getMean()).abs().compareTo(error), -1, "Mean not within margin of error");
